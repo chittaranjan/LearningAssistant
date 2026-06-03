@@ -19,3 +19,9 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+task("printClasspath") {
+    doLast {
+        println(sourceSets["main"].runtimeClasspath.asPath)
+    }
+}

@@ -19,6 +19,8 @@ public class ProgrammaticPrompting {
         // Add system message
         messages.add(new Message("system",
                 "You are an expert software engineer that prefers functional programming."));
+        messages.add(new Message("system",
+                        "Provide code in java language only"));
 
         // Add user message
         messages.add(new Message("user",

@@ -1,23 +1,51 @@
 package com.juleswhite.module2;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openai.client.OpenAIClient;
-import com.openai.client.okhttp.OpenAIOkHttpClient;
-import com.openai.core.JsonValue;
-import com.openai.models.ChatModel;
-import com.openai.models.FunctionDefinition;
-import com.openai.models.chat.completions.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.juleswhite.module1.*;
 
 public class LLM {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final String TOKEN_USAGE_FILE = "token_usage.txt";
+    private static final long MIN_REQUEST_INTERVAL_MS = 2000;
+    private static final long MAX_TOKENS_PER_SESSION = 10000;
 
-    private String model;
+    private final TokenManager tokenManager;
+    private final RateLimiter rateLimiter;
+    private final LLMProvider provider;
+
+    public LLM() {
+        this(new OpenAIProvider(),
+             new FileTokenManager(TOKEN_USAGE_FILE, MAX_TOKENS_PER_SESSION),
+             new SimpleRateLimiter(MIN_REQUEST_INTERVAL_MS));
+    }
+
+    public LLM(String model) {
+        this(new OpenAIProvider(model),
+             new FileTokenManager(TOKEN_USAGE_FILE, MAX_TOKENS_PER_SESSION),
+             new SimpleRateLimiter(MIN_REQUEST_INTERVAL_MS));
+    }
+
+    public LLM(LLMProvider provider, TokenManager tokenManager, RateLimiter rateLimiter) {
+        this.provider = provider;
+        this.tokenManager = tokenManager;
+        this.rateLimiter = rateLimiter;
+    }
+
+    public LLM(String model, TokenManager tokenManager, RateLimiter rateLimiter) {
+        this(new OpenAIProvider(model), tokenManager, rateLimiter);
+    }
+
+    /**
+     * Returns the total tokens used in the current session.
+     */
+    public long getTotalTokensUsed() {
+        return tokenManager.getTotalTokensUsed();
+    }
 
     /**
      * Class to represent a prompt for the LLM, including messages and optional tools
@@ -59,13 +87,6 @@ public class LLM {
         }
     }
 
-    public LLM() {
-        this.model = ChatModel.GPT_4_1.asString();
-    }
-
-    public LLM(String model) {
-        this.model = model;
-    }
 
     /**
      * Generates an LLM response based on the provided prompt.
@@ -74,93 +95,37 @@ public class LLM {
      * @return The generated response as a String.
      */
     public String generateResponse(Prompt prompt) {
-        try {
-            // Initialize OpenAI client using environment variables
-            OpenAIClient client = OpenAIOkHttpClient.fromEnv();
+        // --- Rate Limiting Check ---
+        rateLimiter.checkRateLimit();
 
-            List<Message> messages = prompt.getMessages();
-            List<Tool> tools = prompt.getTools();
+        List<Map<String, Object>> toolMaps = prompt.getTools().stream()
+                .map(tool -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("name", tool.getToolName());
+                    map.put("description", tool.getDescription());
+                    map.put("parameters", tool.getParameters());
+                    return map;
+                })
+                .collect(Collectors.toList());
 
-            ChatCompletionCreateParams.Builder paramsBuilder = ChatCompletionCreateParams.builder()
-                    .model(this.model)
-                    .maxTokens(1024);
+        LLMProvider.Context context = new LLMProvider.Context(
+                prompt.getMessages().stream()
+                        .map(m -> new com.juleswhite.module1.Message(m.getRole(), m.getContent()))
+                        .collect(Collectors.toList()),
+                toolMaps,
+                prompt.getMetadata()
+        );
 
-            // Add messages to the request
-            for (Message message : messages) {
-                if (message.getRole().equals("system")) {
-                    ChatCompletionSystemMessageParam systemMsg = ChatCompletionSystemMessageParam.builder()
-                            .content(message.getContent())
-                            .build();
-                    paramsBuilder.addMessage(systemMsg);
-                } else if (message.getRole().equals("user")) {
-                    ChatCompletionUserMessageParam userMsg = ChatCompletionUserMessageParam.builder()
-                            .content(message.getContent())
-                            .build();
-                    paramsBuilder.addMessage(userMsg);
-                } else {
-                    ChatCompletionAssistantMessageParam assistantMsg = ChatCompletionAssistantMessageParam.builder()
-                            .content(message.getContent())
-                            .build();
-                    paramsBuilder.addMessage(assistantMsg);
-                }
-            }
+        LLMProvider.Result result = provider.generateCompletion(context);
 
-            String result = null;
+        // Token Usage Tracking
+        tokenManager.addTokens(result.getTokensUsed());
+        System.out.println("\n--- Token Usage ---");
+        System.out.println("Total tokens used in this request: " + result.getTokensUsed());
+        System.out.println("Total persistent tokens: " + tokenManager.getTotalTokensUsed());
+        System.out.println("-------------------\n");
 
-            // Handle cases with and without tools
-            if (tools.isEmpty()) {
-                // No tools, just get normal completion
-                ChatCompletion completion = client.chat().completions().create(paramsBuilder.build());
-                result = completion.choices().get(0).message().content().orElse("");
-            } else {
-                // Add tools to the request
-                List<ChatCompletionTool> chatCompletionTools = convertToolsToOpenAIFormat(tools);
-                paramsBuilder.tools(chatCompletionTools);
-
-                // Get completion with tools
-                ChatCompletion completion = client.chat().completions().create(paramsBuilder.build());
-
-                // Check if the model used a tool
-                if (completion.choices().get(0).message().toolCalls() != null &&
-                        !completion.choices().get(0).message().toolCalls().isEmpty()) {
-
-                    // Extract the tool call
-                    ChatCompletionMessageToolCall toolCall = completion.choices().get(0).message().toolCalls().get().get(0);
-
-                    // Format the response as a JSON string
-                    Map<String, Object> toolResponse = new HashMap<>();
-                    toolResponse.put("tool", toolCall.function().name());
-                    toolResponse.put("args", objectMapper.readValue(toolCall.function().arguments(), Map.class));
-
-                    result = objectMapper.writeValueAsString(toolResponse);
-                } else {
-                    // Model chose to respond with text instead of using a tool
-                    result = completion.choices().get(0).message().content().orElse("");
-                }
-            }
-
-            return result;
-
-        } catch (Exception e) {
-            System.err.println("Error generating response: " + e.getMessage());
-            e.printStackTrace();
-
-            System.out.println("Prompt details:");
-            for (Message message : prompt.getMessages()) {
-                System.out.println("Message: " + message.getRole() + " - " + message.getContent());
-            }
-
-            if (!prompt.getTools().isEmpty()) {
-                System.out.println("Tools:");
-                for (Tool tool : prompt.getTools()) {
-                    System.out.println("Tool: " + tool.getToolName() + " - " + tool.getDescription());
-                }
-            }
-
-            System.out.println("Model: " + this.model);
-
-            throw new RuntimeException("Failed to generate response", e);
-        }
+        return result.getContent();
     }
 
     /**
@@ -168,27 +133,5 @@ public class LLM {
      */
     public String generateResponse(List<Message> messages) {
         return generateResponse(new Prompt(messages));
-    }
-
-    /**
-     * Converts our Tool objects to OpenAI's ChatCompletionTool format
-     */
-    private List<ChatCompletionTool> convertToolsToOpenAIFormat(List<Tool> tools) {
-        List<ChatCompletionTool> chatCompletionTools = new ArrayList<>();
-
-        for (Tool tool : tools) {
-            ChatCompletionTool chatCompletionTool = ChatCompletionTool.builder()
-                    .type(JsonValue.from("function"))
-                    .function(FunctionDefinition.builder()
-                            .name(tool.getToolName())
-                            .description(tool.getDescription())
-                            .parameters(JsonValue.from(tool.getParameters()))
-                            .build())
-                    .build();
-
-            chatCompletionTools.add(chatCompletionTool);
-        }
-
-        return chatCompletionTools;
     }
 }
