@@ -73,6 +73,10 @@ public class Agent {
     }
 
     public Memory run(String userInput, Memory memory, int maxIterations) throws Exception {
+        return run(userInput, memory, maxIterations, null);
+    }
+
+    public Memory run(String userInput, Memory memory, int maxIterations, ProgressCallback callback) throws Exception {
         memory = memory != null ? memory : new Memory();
         setCurrentTask(memory, userInput);
 
@@ -84,6 +88,9 @@ public class Agent {
             // Generate a response from the agent
             String response = promptLLMForAction(prompt);
             System.out.println("Agent Decision: " + response);
+            if (callback != null) {
+                callback.onDecision(response);
+            }
 
             // Determine which action the agent wants to execute
             Action action = parseAction(response);
@@ -91,6 +98,9 @@ public class Agent {
             // Execute the action in the environment
             Map<String, Object> result = environment.executeAction(action);
             System.out.println("Action Result: " + result);
+            if (callback != null) {
+                callback.onActionResult(result);
+            }
 
             // Update the agent's memory with information about what happened
             updateMemory(memory, response, result);
@@ -99,6 +109,10 @@ public class Agent {
             if (shouldTerminate(response)) {
                 break;
             }
+        }
+
+        if (callback != null) {
+            callback.onComplete(memory);
         }
 
         return memory;

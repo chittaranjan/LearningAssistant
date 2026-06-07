@@ -21,4 +21,9 @@ public class RemoteAgenticService implements AgenticService {
         // return restTemplate.postForObject(remoteUrl + "/analyze", context, Map.class);
         throw new UnsupportedOperationException("RemoteAgenticService is not yet implemented.");
     }
+
+    @Override
+    public void analyze(Map<String, Object> context, com.learningAssistant.core.ProgressCallback callback) throws Exception {
+        throw new UnsupportedOperationException("RemoteAgenticService is not yet implemented.");
+    }
 }

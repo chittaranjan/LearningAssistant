@@ -38,8 +38,10 @@ This project is a monorepo containing an AI agentic layer, a Spring Boot backend
 ## Key Workflows
 1. **File Upload & Analysis**:
    - User uploads curriculum and resume via `frontend/src/App.js`.
-   - `AgentController.java` receives files, extracts text (PDF/Word/Image).
-   - `AgentController` calls `LocalJavaAgenticService.java`.
+   - `AgentController.java` receives files, extracts text (PDF/Word/Image), and identifies a `customPrompt`.
+   - `AgentController` calls `LocalJavaAgenticService.java` to start the analysis.
+   - The backend creates a `SseEmitter` to stream progress events back to the frontend.
    - `LocalJavaAgenticService` initializes the `Agent` using components from the `ai-agentic-java` module.
    - The `Agent` uses the `LLM` to reason through a sequence of goals: analyze curriculum -> analyze resume -> generate SOP -> generate Study Plan.
-   - Results are returned to the frontend and displayed to the user.
+   - During execution, the agent sends progress updates (decisions and tool results) via a `ProgressCallback`.
+   - Final results are rendered as Markdown in the frontend results pane.

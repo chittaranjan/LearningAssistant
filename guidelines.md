@@ -15,6 +15,7 @@
 - `MockAnalysisProvider`: Simulated LLM for testing without API keys (in `ai-agentic-java`).
 - `AnalysisTools`: Tools available to the agent (in `ai-agentic-java`).
 - `File Handling`: Supports PDF, DOCX, and Images (OCR via Tesseract). Multiple files can be uploaded for both curriculum and resume.
+- `Streaming`: Supports real-time progress streaming from the agent to the UI using Server-Sent Events (SSE).
 
 ## Development Rules
 - Always update both backend and frontend when changing APIs.

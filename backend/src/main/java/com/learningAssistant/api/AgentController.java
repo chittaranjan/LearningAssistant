@@ -1,5 +1,8 @@
 package com.learningAssistant.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learningAssistant.core.Memory;
+import com.learningAssistant.core.ProgressCallback;
 import com.learningAssistant.core.service.AgenticService;
 import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -8,8 +11,10 @@ import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import net.sourceforge.tess4j.Tesseract;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -17,6 +22,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/agent")
@@ -26,10 +34,16 @@ public class AgentController {
     @Autowired
     private AgenticService agenticService;
 
-    @PostMapping("/analyze")
-    public Map<String, Object> analyze(@RequestParam("curriculum") MultipartFile[] curriculumFiles,
-                                       @RequestParam("resume") MultipartFile[] resumeFiles) throws Exception {
+    private final ExecutorService executor = Executors.newCachedThreadPool();
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @PostMapping(value = "/analyze", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public SseEmitter analyze(@RequestParam("curriculum") MultipartFile[] curriculumFiles,
+                              @RequestParam("resume") MultipartFile[] resumeFiles,
+                              @RequestParam(value = "prompt", required = false) String customPrompt) throws Exception {
         
+        SseEmitter emitter = new SseEmitter(600000L); // 10 minutes timeout
+
         StringBuilder curriculumText = new StringBuilder();
         for (MultipartFile file : curriculumFiles) {
             curriculumText.append(extractText(file)).append("\n\n");
@@ -43,8 +57,58 @@ public class AgentController {
         Map<String, Object> context = new HashMap<>();
         context.put("curriculumText", curriculumText.toString().trim());
         context.put("resumeText", resumeText.toString().trim());
+        if (customPrompt != null && !customPrompt.isEmpty()) {
+            context.put("customPrompt", customPrompt);
+        }
 
-        return agenticService.analyze(context);
+        executor.execute(() -> {
+            try {
+                agenticService.analyze(context, new ProgressCallback() {
+                    @Override
+                    public void onDecision(String decision) {
+                        sendEvent(emitter, "decision", decision);
+                    }
+
+                    @Override
+                    public void onActionResult(Map<String, Object> result) {
+                        sendEvent(emitter, "actionResult", result);
+                    }
+
+                    @Override
+                    public void onComplete(Memory finalMemory) {
+                        Map<String, Object> response = new HashMap<>();
+                        List<String> results = finalMemory.getMemories().stream()
+                                .filter(m -> "assistant".equals(m.get("type")))
+                                .map(m -> (String) m.get("content"))
+                                .collect(Collectors.toList());
+                        response.put("results", results);
+                        sendEvent(emitter, "complete", response);
+                        emitter.complete();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        sendEvent(emitter, "error", error);
+                        emitter.completeWithError(new RuntimeException(error));
+                    }
+                });
+            } catch (Exception e) {
+                sendEvent(emitter, "error", e.getMessage());
+                emitter.completeWithError(e);
+            }
+        });
+
+        return emitter;
+    }
+
+    private void sendEvent(SseEmitter emitter, String name, Object data) {
+        try {
+            emitter.send(SseEmitter.event()
+                    .name(name)
+                    .data(data instanceof String ? data : objectMapper.writeValueAsString(data)));
+        } catch (IOException e) {
+            // Client likely disconnected
+        }
     }
 
     private String extractText(MultipartFile file) throws Exception {
@@ -81,14 +145,17 @@ public class AgentController {
 
     private String extractTextFromImage(MultipartFile file) {
         try {
+            // Check if we should even try Tesseract
             Tesseract tesseract = new Tesseract();
             // You might need to set the datapath for Tesseract if it's not in the default location
             // tesseract.setDatapath("/usr/local/share/tessdata");
             
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
             return tesseract.doOCR(bufferedImage);
+        } catch (NoClassDefFoundError | UnsatisfiedLinkError e) {
+            return "OCR Error: Tesseract library not found or not configured in this environment. Please install Tesseract or use PDF/DOCX files.";
         } catch (Exception e) {
-            return "Error extracting text from image: " + e.getMessage() + ". (Note: Tesseract OCR might not be fully configured in this environment)";
+            return "Error extracting text from image: " + e.getMessage();
         }
     }
 }

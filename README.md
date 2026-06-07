@@ -1,43 +1,60 @@
 # Learning Assistant - Multi-Agent System (Monorepo)
 
-This project is an industry-standard monorepo containing a multi-agent system designed to analyze course curricula and resumes.
+An industry-standard monorepo featuring a multi-agent system designed to analyze course curricula and resumes using the **GAME** (Goals, Actions, Memory, Environment) framework.
 
-## Project Structure
+## 🏗 Project Structure
 
-- `backend/`: Spring Boot REST API and the core GAME agent framework.
-- `frontend/`: React-based UI for file uploads and result visualization.
-- `devops/`: Scripts for end-to-end building and testing.
+- **`ai-agentic-java/`**: The core agentic layer. Houses the GAME framework, LLM providers, and domain-specific analysis tools.
+- **`backend/`**: Spring Boot middleware that handles file processing (PDF, Word, Images), orchestrates the AI agents, and provides streaming REST APIs.
+- **`frontend/`**: React-based user interface featuring a modern split-pane design, real-time progress streaming, and Markdown results visualization.
+- **`devops/`**: Automation scripts for end-to-end building, testing, and launching the application.
 
-## Getting Started
+## 🚀 Getting Started
 
-### Local Build, Test, and Launch (DevOps)
+### Prerequisites
 
-The project uses a Gradle-based monorepo structure. You can run the end-to-end build and test script from the root:
+- Java 17 or higher
+- Node.js 18+ (for frontend)
+- Tesseract OCR (optional, for image analysis)
 
-```bash
-./devops/e2e-test.sh
-```
+### Automated Launch
 
-To build and launch the entire application (AI Agent + Backend + Frontend) and open it in your browser:
+To build everything and launch the application in your browser:
 
 ```bash
 ./devops/launch.sh
 ```
 
-### Components
+### End-to-End Build & Test
 
-- **ai-agentic-java**: Core agentic framework and analysis tools.
-- **backend**: Spring Boot middleware handling file processing and API requests.
-- **frontend**: React-based user interface.
+To run the full verification suite (Backend tests + Frontend production build):
 
-### Running Manually
+```bash
+./devops/e2e-test.sh
+```
 
-1. **AI Agent & Backend**: From the root, run `./gradlew :backend:bootRun`
-2. **Frontend**: Navigate to `frontend`, run `npm install` and `npm start`
+## ✨ Key Features
 
-## Features
+- **Multi-Agent Orchestration**: Specialized agents for curriculum analysis, resume evaluation, and document synthesis (SOP/Study Plan).
+- **Multi-Format File Support**: Upload PDFs, DOCX files, or Images (with OCR). Supports multiple files per category.
+- **Real-time Streaming**: Watch the agent "think" in real-time as it executes actions and processes information via Server-Sent Events (SSE).
+- **Custom Agent Instructions**: Provide specific prompts to tailor the analysis to your needs.
+- **Interactive UI**: A split-screen experience with an integrated Markdown viewer for high-quality result rendering.
+- **Pluggable Architecture**: Decoupled agentic layer allows for future expansion into other languages (e.g., Python/LangGraph).
 
-- **Multi-Agent Coordination**: Uses a planning agent to orchestrate curriculum and resume evaluation.
-- **PDF Support**: Integrated PDF text extraction for processing uploaded documents.
-- **Spring Boot Backend**: Provides RESTful endpoints for the frontend.
-- **React Frontend**: User-friendly interface for interacting with the agents.
+## 🛠 Manual Execution
+
+1.  **Backend (Java)**: From the root, run `./gradlew :backend:bootRun` (API available at `http://localhost:8080`)
+2.  **Frontend (React)**: 
+    ```bash
+    cd frontend
+    npm install
+    npm start
+    ```
+    (UI available at `http://localhost:3000`)
+
+## 📖 Further Documentation
+
+- **[AGENTS.md](AGENTS.md)**: Details on the GAME framework and agent roles.
+- **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)**: Deep dive into the monorepo layout and dependencies.
+- **[guidelines.md](guidelines.md)**: Development rules and project standards.

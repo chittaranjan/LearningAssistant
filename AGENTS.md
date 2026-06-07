@@ -18,6 +18,8 @@ The primary agent implemented in `LocalJavaAgenticService.java`. It is responsib
 3.  **Resume Evaluation**: Assessing the user's background and identifying skill gaps.
 4.  **SOP & Study Plan Generation**: Synthesizing the analyses to produce tailored documents.
 
+The agent supports **real-time progress streaming** via the `ProgressCallback` interface, allowing the UI to display the agent's "thoughts" and intermediate actions as they happen.
+
 ## Framework Implementation
 
 The core logic is located in `ai-agentic-java/src/main/java/com/learningAssistant/core/`:

@@ -19,6 +19,15 @@ public class LocalJavaAgenticService implements AgenticService {
 
     @Override
     public Map<String, Object> analyze(Map<String, Object> context) throws Exception {
+        return analyzeInternal(context, null);
+    }
+
+    @Override
+    public void analyze(Map<String, Object> context, ProgressCallback callback) throws Exception {
+        analyzeInternal(context, callback);
+    }
+
+    private Map<String, Object> analyzeInternal(Map<String, Object> context, ProgressCallback callback) throws Exception {
         String curriculumText = (String) context.get("curriculumText");
         String resumeText = (String) context.get("resumeText");
 
@@ -44,10 +53,16 @@ public class LocalJavaAgenticService implements AgenticService {
 
         Agent plannerAgent = Agents.createJsonAgent(AnalysisTools.class, plannerGoals, llm);
 
-        String userInput = "Analyze this curriculum text: [" + curriculumText + "] and this resume text: [" + resumeText + "]. " +
-                           "Prepare a Statement of Purpose and a Study Plan.";
+        String userInput = "Analyze this curriculum text: [" + curriculumText + "] and this resume text: [" + resumeText + "]. ";
+        
+        String customPrompt = (String) context.get("customPrompt");
+        if (customPrompt != null && !customPrompt.isEmpty()) {
+            userInput += "Additional instructions: " + customPrompt + " ";
+        }
+        
+        userInput += "Prepare a Statement of Purpose and a Study Plan.";
 
-        Memory finalMemory = plannerAgent.run(userInput, new Memory(), 10);
+        Memory finalMemory = plannerAgent.run(userInput, new Memory(), 10, callback);
 
         Map<String, Object> response = new HashMap<>();
         response.put("memory", finalMemory.getMemories());

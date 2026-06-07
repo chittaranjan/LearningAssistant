@@ -1,5 +1,6 @@
 package com.learningAssistant.core.service;
 
+import com.learningAssistant.core.ProgressCallback;
 import java.util.Map;
 
 /**
@@ -16,4 +17,13 @@ public interface AgenticService {
      * @throws Exception if any error occurs during analysis.
      */
     Map<String, Object> analyze(Map<String, Object> context) throws Exception;
+
+    /**
+     * Executes an analysis task using the agentic layer with progress reporting.
+     *
+     * @param context A map containing the necessary data for analysis.
+     * @param callback Callback for receiving progress updates.
+     * @throws Exception if any error occurs during analysis.
+     */
+    void analyze(Map<String, Object> context, ProgressCallback callback) throws Exception;
 }
