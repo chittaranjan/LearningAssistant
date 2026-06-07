@@ -1,2 +1,2 @@
-rootProject.name = "agents"
+rootProject.name = "learning-assistant"
 

@@ -4,7 +4,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.4"
 }
 
-group = "com.juleswhite"
+group = "com.learningAssistant"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -24,10 +24,4 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
-}
-
-task("printClasspath") {
-    doLast {
-        println(sourceSets["main"].runtimeClasspath.asPath)
-    }
 }
