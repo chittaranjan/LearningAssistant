@@ -16,31 +16,21 @@ public class MockAnalysisProviderTest {
         List<Message> messages = new ArrayList<>();
         LLMProvider.Context context = new LLMProvider.Context(messages);
         
-        // Step 0: readPdfContent (curriculum)
+        // Step 0: evaluateCurriculum
         LLMProvider.Result result0 = provider.generateCompletion(context);
-        assertTrue(result0.getContent().contains("readPdfContent"));
-        assertTrue(result0.getContent().contains("curriculum.pdf"));
+        assertTrue(result0.getContent().contains("evaluateCurriculum"));
         
-        // Step 1: readPdfContent (resume)
+        // Step 1: evaluateResume
         LLMProvider.Result result1 = provider.generateCompletion(context);
-        assertTrue(result1.getContent().contains("readPdfContent"));
-        assertTrue(result1.getContent().contains("resume.pdf"));
+        assertTrue(result1.getContent().contains("evaluateResume"));
         
-        // Step 2: evaluateCurriculum
+        // Step 2: generateSOP
         LLMProvider.Result result2 = provider.generateCompletion(context);
-        assertTrue(result2.getContent().contains("evaluateCurriculum"));
+        assertTrue(result2.getContent().contains("generateSOP"));
         
-        // Step 3: evaluateResume
+        // Step 3: generateStudyPlan
         LLMProvider.Result result3 = provider.generateCompletion(context);
-        assertTrue(result3.getContent().contains("evaluateResume"));
-        
-        // Step 4: generateSOP
-        LLMProvider.Result result4 = provider.generateCompletion(context);
-        assertTrue(result4.getContent().contains("generateSOP"));
-        
-        // Step 5: generateStudyPlan
-        LLMProvider.Result result5 = provider.generateCompletion(context);
-        assertTrue(result5.getContent().contains("generateStudyPlan"));
+        assertTrue(result3.getContent().contains("generateStudyPlan"));
         
         // Default: finishTask
         LLMProvider.Result resultFinal = provider.generateCompletion(context);

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 function App() {
-  const [curriculum, setCurriculum] = useState(null);
-  const [resume, setResume] = useState(null);
+  const [curriculumFiles, setCurriculumFiles] = useState([]);
+  const [resumeFiles, setResumeFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
 
   const handleAnalyze = async () => {
-    if (!curriculum || !resume) {
-      alert("Please upload both curriculum and resume PDFs.");
+    if (curriculumFiles.length === 0 || resumeFiles.length === 0) {
+      alert("Please upload at least one curriculum and one resume file.");
       return;
     }
 
@@ -19,8 +19,12 @@ function App() {
     setResults([]);
 
     const formData = new FormData();
-    formData.append('curriculum', curriculum);
-    formData.append('resume', resume);
+    for (let i = 0; i < curriculumFiles.length; i++) {
+      formData.append('curriculum', curriculumFiles[i]);
+    }
+    for (let i = 0; i < resumeFiles.length; i++) {
+      formData.append('resume', resumeFiles[i]);
+    }
 
     try {
       const response = await axios.post('http://localhost:8080/api/agent/analyze', formData, {
@@ -42,13 +46,33 @@ function App() {
       <h1>Multi-Agent Curriculum & Resume Analyzer</h1>
       
       <div style={{ marginBottom: '20px' }}>
-        <h3>Upload Curriculum (PDF)</h3>
-        <input type="file" accept="application/pdf" onChange={(e) => setCurriculum(e.target.files[0])} />
+        <h3>Upload Curriculum (PDF, Image, Word) - Multiple allowed</h3>
+        <input 
+          type="file" 
+          accept="application/pdf,image/*,.doc,.docx" 
+          multiple 
+          onChange={(e) => setCurriculumFiles(Array.from(e.target.files))} 
+        />
+        {curriculumFiles.length > 0 && (
+          <ul>
+            {curriculumFiles.map((file, i) => <li key={i}>{file.name}</li>)}
+          </ul>
+        )}
       </div>
 
       <div style={{ marginBottom: '20px' }}>
-        <h3>Upload Resume (PDF)</h3>
-        <input type="file" accept="application/pdf" onChange={(e) => setResume(e.target.files[0])} />
+        <h3>Upload Resume (PDF, Image, Word) - Multiple allowed</h3>
+        <input 
+          type="file" 
+          accept="application/pdf,image/*,.doc,.docx" 
+          multiple 
+          onChange={(e) => setResumeFiles(Array.from(e.target.files))} 
+        />
+        {resumeFiles.length > 0 && (
+          <ul>
+            {resumeFiles.map((file, i) => <li key={i}>{file.name}</li>)}
+          </ul>
+        )}
       </div>
 
       <button 

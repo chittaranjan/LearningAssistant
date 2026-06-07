@@ -25,13 +25,13 @@ public class LocalJavaAgenticService implements AgenticService {
         LLMProvider provider;
         String apiKey = System.getenv("OPENAI_API_KEY");
         if (apiKey == null || apiKey.isEmpty()) {
-            provider = new MockAnalysisProvider();
+            provider = new MockAnalysisProvider(curriculumText, resumeText);
         } else {
             provider = new OpenAIProvider();
         }
 
         LLM llm = new LLM(provider, 
-                          new FileTokenManager("token_usage.txt", 10000), 
+                          new FileTokenManager("token_usage.txt", 100000), 
                           new SimpleRateLimiter(0));
 
         List<Goal> plannerGoals = Arrays.asList(

@@ -17,6 +17,9 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -42,15 +45,66 @@ public class AgentControllerTest {
         }
     }
 
+    private byte[] createWord(String content) throws Exception {
+        try (XWPFDocument document = new XWPFDocument();
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            XWPFParagraph paragraph = document.createParagraph();
+            XWPFRun run = paragraph.createRun();
+            run.setText(content);
+            document.write(baos);
+            return baos.toByteArray();
+        }
+    }
+
     @Test
-    public void testAnalyzeEndpoint() throws Exception {
-        byte[] curriculumPdf = createPdf("Course: Computer Science");
-        byte[] resumePdf = createPdf("Name: John Doe");
+    public void testAnalyzeEndpointWithWord() throws Exception {
+        byte[] curriculumWord = createWord("Course: Data Science");
+        byte[] resumeWord = createWord("Name: Jane Smith");
+
+        MockMultipartFile curriculumFile = new MockMultipartFile(
+                "curriculum", "curriculum.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", curriculumWord);
+        MockMultipartFile resumeFile = new MockMultipartFile(
+                "resume", "resume.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", resumeWord);
+
+        mockMvc.perform(multipart("/api/agent/analyze")
+                .file(curriculumFile)
+                .file(resumeFile))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.memory").exists())
+                .andExpect(jsonPath("$.results").exists());
+    }
+
+    @Test
+    public void testAnalyzeEndpointMultipleFiles() throws Exception {
+        byte[] curriculumPdf1 = createPdf("Course: AI Part 1");
+        byte[] curriculumPdf2 = createPdf("Course: AI Part 2");
+        byte[] resumeWord = createWord("Name: Bob Brown");
+
+        MockMultipartFile curriculumFile1 = new MockMultipartFile(
+                "curriculum", "curriculum1.pdf", "application/pdf", curriculumPdf1);
+        MockMultipartFile curriculumFile2 = new MockMultipartFile(
+                "curriculum", "curriculum2.pdf", "application/pdf", curriculumPdf2);
+        MockMultipartFile resumeFile = new MockMultipartFile(
+                "resume", "resume.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", resumeWord);
+
+        mockMvc.perform(multipart("/api/agent/analyze")
+                .file(curriculumFile1)
+                .file(curriculumFile2)
+                .file(resumeFile))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.memory").exists())
+                .andExpect(jsonPath("$.results").exists());
+    }
+
+    @Test
+    public void testAnalyzeEndpointMixed() throws Exception {
+        byte[] curriculumPdf = createPdf("Course: AI");
+        byte[] resumeWord = createWord("Name: Bob Brown");
 
         MockMultipartFile curriculumFile = new MockMultipartFile(
                 "curriculum", "curriculum.pdf", "application/pdf", curriculumPdf);
         MockMultipartFile resumeFile = new MockMultipartFile(
-                "resume", "resume.pdf", "application/pdf", resumePdf);
+                "resume", "resume.docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", resumeWord);
 
         mockMvc.perform(multipart("/api/agent/analyze")
                 .file(curriculumFile)

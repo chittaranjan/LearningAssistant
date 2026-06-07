@@ -1,0 +1,400 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/Users/engineered/.gradle/wrapper/dists/gradle-8.10-bin/deqhafrv1ntovfmgh0nh3npr9/gradle-8.10/lib/native-platform-0.22-milestone-26.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+Initialized native services in: /Users/engineered/.gradle/native
+Initialized jansi services in: /Users/engineered/.gradle/native
+Received JVM installation metadata from '/Library/Java/JavaVirtualMachines/jdk-26.jdk/Contents/Home': {JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-26.jdk/Contents/Home, JAVA_VERSION=26.0.1, JAVA_VENDOR=Oracle Corporation, RUNTIME_NAME=Java(TM) SE Runtime Environment, RUNTIME_VERSION=26.0.1+8-34, VM_NAME=Java HotSpot(TM) 64-Bit Server VM, VM_VERSION=26.0.1+8-34, VM_VENDOR=Oracle Corporation, OS_ARCH=x86_64}
+Starting process 'command '/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin/java''. Working directory: /Users/engineered/.gradle/.tmp/tmp-jvm4988885007389505067probe Command: /Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin/java -Xmx32m -Xms32m -cp . JavaProbe
+Successfully started process 'command '/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin/java''
+Received JVM installation metadata from '/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home': {JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home, JAVA_VERSION=21.0.11, JAVA_VENDOR=Oracle Corporation, RUNTIME_NAME=Java(TM) SE Runtime Environment, RUNTIME_VERSION=21.0.11+9-LTS-211, VM_NAME=Java HotSpot(TM) 64-Bit Server VM, VM_VERSION=21.0.11+9-LTS-211, VM_VENDOR=Oracle Corporation, OS_ARCH=x86_64}
+The client will now receive all logging from the daemon (pid: 8213). The daemon log file: /Users/engineered/.gradle/daemon/8.10/daemon-8213.out.log
+Starting 8th build in daemon [uptime: 12 mins 44.483 secs, performance: 99%, GC rate: 0.00/s, heap usage: 0% of 512 MiB, non-heap usage: 37% of 384 MiB]
+Using 8 worker leases.
+Watching the file system is configured to be enabled if available
+File system watching is inactive
+Starting Build
+Settings evaluated using settings file '/Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend/settings.gradle.kts'.
+Projects loaded. Root project using build file '/Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend/build.gradle.kts'.
+Included projects: [root project 'learning-assistant']
+
+> Configure project :
+Evaluating root project 'learning-assistant' using build file '/Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend/build.gradle.kts'.
+Transforming spring-boot-gradle-plugin-3.2.2.jar (org.springframework.boot:spring-boot-gradle-plugin:3.2.2) with InstrumentationAnalysisTransform
+Transforming dependency-management-plugin-1.1.4.jar (io.spring.gradle:dependency-management-plugin:1.1.4) with InstrumentationAnalysisTransform
+Transforming spring-boot-buildpack-platform-3.2.2.jar (org.springframework.boot:spring-boot-buildpack-platform:3.2.2) with InstrumentationAnalysisTransform
+Transforming spring-boot-loader-tools-3.2.2.jar (org.springframework.boot:spring-boot-loader-tools:3.2.2) with InstrumentationAnalysisTransform
+Transforming commons-compress-1.23.0.jar (org.apache.commons:commons-compress:1.23.0) with InstrumentationAnalysisTransform
+Transforming spring-core-6.0.10.jar (org.springframework:spring-core:6.0.10) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.14.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.14.2.jar (com.fasterxml.jackson.core:jackson-core:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-module-parameter-names-2.14.2.jar (com.fasterxml.jackson.module:jackson-module-parameter-names:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-databind-2.14.2.jar (com.fasterxml.jackson.core:jackson-databind:2.14.2) with InstrumentationAnalysisTransform
+Transforming jna-platform-5.13.0.jar (net.java.dev.jna:jna-platform:5.13.0) with InstrumentationAnalysisTransform
+Transforming httpclient5-5.2.3.jar (org.apache.httpcomponents.client5:httpclient5:5.2.3) with InstrumentationAnalysisTransform
+Transforming tomlj-1.0.0.jar (org.tomlj:tomlj:1.0.0) with InstrumentationAnalysisTransform
+Transforming spring-jcl-6.0.10.jar (org.springframework:spring-jcl:6.0.10) with InstrumentationAnalysisTransform
+Transforming jna-5.13.0.jar (net.java.dev.jna:jna:5.13.0) with InstrumentationAnalysisTransform
+Transforming httpcore5-h2-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5-h2:5.2.4) with InstrumentationAnalysisTransform
+Transforming httpcore5-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5:5.2.4) with InstrumentationAnalysisTransform
+Transforming slf4j-api-1.7.36.jar (org.slf4j:slf4j-api:1.7.36) with InstrumentationAnalysisTransform
+Transforming antlr4-runtime-4.7.2.jar (org.antlr:antlr4-runtime:4.7.2) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming spring-boot-gradle-plugin-3.2.2.jar (org.springframework.boot:spring-boot-gradle-plugin:3.2.2) with InstrumentationAnalysisTransform
+Transforming spring-boot-gradle-plugin-3.2.2.jar (org.springframework.boot:spring-boot-gradle-plugin:3.2.2) with MergeInstrumentationAnalysisTransform
+Transforming dependency-management-plugin-1.1.4.jar (io.spring.gradle:dependency-management-plugin:1.1.4) with InstrumentationAnalysisTransform
+Transforming dependency-management-plugin-1.1.4.jar (io.spring.gradle:dependency-management-plugin:1.1.4) with MergeInstrumentationAnalysisTransform
+Transforming spring-boot-buildpack-platform-3.2.2.jar (org.springframework.boot:spring-boot-buildpack-platform:3.2.2) with InstrumentationAnalysisTransform
+Transforming spring-boot-buildpack-platform-3.2.2.jar (org.springframework.boot:spring-boot-buildpack-platform:3.2.2) with MergeInstrumentationAnalysisTransform
+Transforming spring-boot-gradle-plugin-3.2.2.jar (org.springframework.boot:spring-boot-gradle-plugin:3.2.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-boot-loader-tools-3.2.2.jar (org.springframework.boot:spring-boot-loader-tools:3.2.2) with InstrumentationAnalysisTransform
+Transforming dependency-management-plugin-1.1.4.jar (io.spring.gradle:dependency-management-plugin:1.1.4) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-boot-loader-tools-3.2.2.jar (org.springframework.boot:spring-boot-loader-tools:3.2.2) with MergeInstrumentationAnalysisTransform
+Transforming spring-boot-buildpack-platform-3.2.2.jar (org.springframework.boot:spring-boot-buildpack-platform:3.2.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming commons-compress-1.23.0.jar (org.apache.commons:commons-compress:1.23.0) with InstrumentationAnalysisTransform
+Transforming commons-compress-1.23.0.jar (org.apache.commons:commons-compress:1.23.0) with MergeInstrumentationAnalysisTransform
+Transforming spring-boot-loader-tools-3.2.2.jar (org.springframework.boot:spring-boot-loader-tools:3.2.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-core-6.0.10.jar (org.springframework:spring-core:6.0.10) with InstrumentationAnalysisTransform
+Transforming spring-core-6.0.10.jar (org.springframework:spring-core:6.0.10) with MergeInstrumentationAnalysisTransform
+Transforming commons-compress-1.23.0.jar (org.apache.commons:commons-compress:1.23.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-annotations-2.14.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.14.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.14.2) with MergeInstrumentationAnalysisTransform
+Transforming spring-core-6.0.10.jar (org.springframework:spring-core:6.0.10) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-core-2.14.2.jar (com.fasterxml.jackson.core:jackson-core:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.14.2.jar (com.fasterxml.jackson.core:jackson-core:2.14.2) with MergeInstrumentationAnalysisTransform
+Transforming jackson-module-parameter-names-2.14.2.jar (com.fasterxml.jackson.module:jackson-module-parameter-names:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-annotations-2.14.2.jar (com.fasterxml.jackson.core:jackson-annotations:2.14.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-module-parameter-names-2.14.2.jar (com.fasterxml.jackson.module:jackson-module-parameter-names:2.14.2) with MergeInstrumentationAnalysisTransform
+Transforming jackson-databind-2.14.2.jar (com.fasterxml.jackson.core:jackson-databind:2.14.2) with InstrumentationAnalysisTransform
+Transforming jackson-databind-2.14.2.jar (com.fasterxml.jackson.core:jackson-databind:2.14.2) with MergeInstrumentationAnalysisTransform
+Transforming jna-platform-5.13.0.jar (net.java.dev.jna:jna-platform:5.13.0) with InstrumentationAnalysisTransform
+Transforming jackson-core-2.14.2.jar (com.fasterxml.jackson.core:jackson-core:2.14.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jna-platform-5.13.0.jar (net.java.dev.jna:jna-platform:5.13.0) with MergeInstrumentationAnalysisTransform
+Transforming httpclient5-5.2.3.jar (org.apache.httpcomponents.client5:httpclient5:5.2.3) with InstrumentationAnalysisTransform
+Transforming httpclient5-5.2.3.jar (org.apache.httpcomponents.client5:httpclient5:5.2.3) with MergeInstrumentationAnalysisTransform
+Transforming tomlj-1.0.0.jar (org.tomlj:tomlj:1.0.0) with InstrumentationAnalysisTransform
+Transforming tomlj-1.0.0.jar (org.tomlj:tomlj:1.0.0) with MergeInstrumentationAnalysisTransform
+Transforming jackson-module-parameter-names-2.14.2.jar (com.fasterxml.jackson.module:jackson-module-parameter-names:2.14.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jackson-databind-2.14.2.jar (com.fasterxml.jackson.core:jackson-databind:2.14.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpclient5-5.2.3.jar (org.apache.httpcomponents.client5:httpclient5:5.2.3) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-jcl-6.0.10.jar (org.springframework:spring-jcl:6.0.10) with InstrumentationAnalysisTransform
+Transforming jna-platform-5.13.0.jar (net.java.dev.jna:jna-platform:5.13.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-jcl-6.0.10.jar (org.springframework:spring-jcl:6.0.10) with MergeInstrumentationAnalysisTransform
+Transforming jna-5.13.0.jar (net.java.dev.jna:jna:5.13.0) with InstrumentationAnalysisTransform
+Transforming jna-5.13.0.jar (net.java.dev.jna:jna:5.13.0) with MergeInstrumentationAnalysisTransform
+Transforming httpcore5-h2-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5-h2:5.2.4) with InstrumentationAnalysisTransform
+Transforming httpcore5-h2-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5-h2:5.2.4) with MergeInstrumentationAnalysisTransform
+Transforming httpcore5-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5:5.2.4) with InstrumentationAnalysisTransform
+Transforming httpcore5-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5:5.2.4) with MergeInstrumentationAnalysisTransform
+Transforming tomlj-1.0.0.jar (org.tomlj:tomlj:1.0.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming spring-jcl-6.0.10.jar (org.springframework:spring-jcl:6.0.10) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jna-5.13.0.jar (net.java.dev.jna:jna:5.13.0) with ExternalDependencyInstrumentingArtifactTransform
+Transforming slf4j-api-1.7.36.jar (org.slf4j:slf4j-api:1.7.36) with InstrumentationAnalysisTransform
+Transforming slf4j-api-1.7.36.jar (org.slf4j:slf4j-api:1.7.36) with MergeInstrumentationAnalysisTransform
+Transforming antlr4-runtime-4.7.2.jar (org.antlr:antlr4-runtime:4.7.2) with InstrumentationAnalysisTransform
+Transforming antlr4-runtime-4.7.2.jar (org.antlr:antlr4-runtime:4.7.2) with MergeInstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with InstrumentationAnalysisTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with MergeInstrumentationAnalysisTransform
+Transforming antlr4-runtime-4.7.2.jar (org.antlr:antlr4-runtime:4.7.2) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpcore5-h2-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5-h2:5.2.4) with ExternalDependencyInstrumentingArtifactTransform
+Transforming slf4j-api-1.7.36.jar (org.slf4j:slf4j-api:1.7.36) with ExternalDependencyInstrumentingArtifactTransform
+Transforming httpcore5-5.2.4.jar (org.apache.httpcomponents.core5:httpcore5:5.2.4) with ExternalDependencyInstrumentingArtifactTransform
+Transforming jsr305-3.0.2.jar (com.google.code.findbugs:jsr305:3.0.2) with ExternalDependencyInstrumentingArtifactTransform
+Applying dependency management to configuration 'annotationProcessor' in project 'learning-assistant'
+Applying dependency management to configuration 'apiElements' in project 'learning-assistant'
+Applying dependency management to configuration 'archives' in project 'learning-assistant'
+Applying dependency management to configuration 'bootArchives' in project 'learning-assistant'
+Applying dependency management to configuration 'compileClasspath' in project 'learning-assistant'
+Applying dependency management to configuration 'compileOnly' in project 'learning-assistant'
+Applying dependency management to configuration 'default' in project 'learning-assistant'
+Applying dependency management to configuration 'developmentOnly' in project 'learning-assistant'
+Applying dependency management to configuration 'implementation' in project 'learning-assistant'
+Applying dependency management to configuration 'mainSourceElements' in project 'learning-assistant'
+Applying dependency management to configuration 'productionRuntimeClasspath' in project 'learning-assistant'
+Applying dependency management to configuration 'runtimeClasspath' in project 'learning-assistant'
+Applying dependency management to configuration 'runtimeElements' in project 'learning-assistant'
+Applying dependency management to configuration 'runtimeOnly' in project 'learning-assistant'
+Applying dependency management to configuration 'testAndDevelopmentOnly' in project 'learning-assistant'
+Applying dependency management to configuration 'testAnnotationProcessor' in project 'learning-assistant'
+Applying dependency management to configuration 'testCompileClasspath' in project 'learning-assistant'
+Applying dependency management to configuration 'testCompileOnly' in project 'learning-assistant'
+Applying dependency management to configuration 'testImplementation' in project 'learning-assistant'
+Applying dependency management to configuration 'testResultsElementsForTest' in project 'learning-assistant'
+Applying dependency management to configuration 'testRuntimeClasspath' in project 'learning-assistant'
+Applying dependency management to configuration 'testRuntimeOnly' in project 'learning-assistant'
+All projects evaluated.
+Task name matched 'test'
+Selected primary task 'test' from project :
+Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test']
+Tasks that were excluded: []
+Resolve mutations for :compileJava (Thread[#901,Execution worker,5,main]) started.
+:compileJava (Thread[#901,Execution worker,5,main]) started.
+
+> Task :compileJava UP-TO-DATE
+Resolving global dependency management for project 'learning-assistant'
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration53/1.0-SNAPSHOT/maven-metadata.xml]
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration53/1.0-SNAPSHOT/1.0-SNAPSHOT-detachedConfiguration53-1.0-SNAPSHOT.pom]
+Excluding []
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration96/1.0-SNAPSHOT/maven-metadata.xml]
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration96/1.0-SNAPSHOT/1.0-SNAPSHOT-detachedConfiguration96-1.0-SNAPSHOT.pom]
+Excluding []
+Custom actions are attached to task ':compileJava'.
+Caching disabled for task ':compileJava' because:
+  Build cache is disabled
+Skipping task ':compileJava' as it is up-to-date.
+Resolve mutations for :processResources (Thread[#901,Execution worker,5,main]) started.
+:processResources (Thread[#901,Execution worker,5,main]) started.
+
+> Task :processResources NO-SOURCE
+Skipping task ':processResources' as it has no source files and no previous output files.
+Resolve mutations for :classes (Thread[#901,Execution worker,5,main]) started.
+:classes (Thread[#901,Execution worker,5,main]) started.
+
+> Task :classes UP-TO-DATE
+Skipping task ':classes' as it has no actions.
+Resolve mutations for :compileTestJava (Thread[#901,Execution worker,5,main]) started.
+:compileTestJava (Thread[#901,Execution worker,5,main]) started.
+
+> Task :compileTestJava UP-TO-DATE
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration98/1.0-SNAPSHOT/maven-metadata.xml]
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration98/1.0-SNAPSHOT/1.0-SNAPSHOT-detachedConfiguration98-1.0-SNAPSHOT.pom]
+Excluding []
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration109/1.0-SNAPSHOT/maven-metadata.xml]
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration109/1.0-SNAPSHOT/1.0-SNAPSHOT-detachedConfiguration109-1.0-SNAPSHOT.pom]
+Excluding []
+Custom actions are attached to task ':compileTestJava'.
+Caching disabled for task ':compileTestJava' because:
+  Build cache is disabled
+Skipping task ':compileTestJava' as it is up-to-date.
+Resolve mutations for :processTestResources (Thread[#901,Execution worker,5,main]) started.
+:processTestResources (Thread[#901,Execution worker,5,main]) started.
+
+> Task :processTestResources NO-SOURCE
+Skipping task ':processTestResources' as it has no source files and no previous output files.
+Resolve mutations for :testClasses (Thread[#901,Execution worker,5,main]) started.
+:testClasses (Thread[#901,Execution worker,5,main]) started.
+
+> Task :testClasses UP-TO-DATE
+Skipping task ':testClasses' as it has no actions.
+Resolve mutations for :test (Thread[#901,Execution worker,5,main]) started.
+:test (Thread[#901,Execution worker,5,main]) started.
+Gradle Test Executor 7 started executing tests.
+
+> Task :test
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration111/1.0-SNAPSHOT/maven-metadata.xml]
+Resource missing. [HTTP GET: https://repo.maven.apache.org/maven2/com/learningAssistant/1.0-SNAPSHOT-detachedConfiguration111/1.0-SNAPSHOT/1.0-SNAPSHOT-detachedConfiguration111-1.0-SNAPSHOT.pom]
+Excluding []
+Caching disabled for task ':test' because:
+  Build cache is disabled
+Task ':test' is not up-to-date because:
+  Task has failed previously.
+Starting process 'Gradle Test Executor 7'. Working directory: /Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend Command: /Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home/bin/java -Dorg.gradle.internal.worker.tmpdir=/Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend/build/tmp/test/work @/Users/engineered/.gradle/.tmp/gradle-worker-classpath5351674622708647747txt -Xmx512m -Dfile.encoding=UTF-8 -Duser.country=IN -Duser.language=en -Duser.variant -ea worker.org.gradle.process.internal.worker.GradleWorkerMain 'Gradle Test Executor 7'
+Successfully started process 'Gradle Test Executor 7'
+
+AgentControllerTest STANDARD_OUT
+    Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+    13:47:26.024 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.learningAssistant.api.AgentControllerTest]: AgentControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+    13:47:26.151 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.learningAssistant.api.AgentApplication for test class com.learningAssistant.api.AgentControllerTest
+
+      .   ____          _            __ _ _
+     /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+    ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+      '  |____| .__|_| |_|_| |_\__, | / / / /
+     =========|_|==============|___/=/_/_/_/
+     :: Spring Boot ::                (v3.2.2)
+
+    2026-06-07T13:47:26.568+05:30  INFO 9220 --- [    Test worker] c.l.api.AgentControllerTest              : Starting AgentControllerTest using Java 21.0.11 with PID 9220 (started by engineered in /Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend)
+    2026-06-07T13:47:26.570+05:30  INFO 9220 --- [    Test worker] c.l.api.AgentControllerTest              : No active profile set, falling back to 1 default profile: "default"
+    2026-06-07T13:47:27.931+05:30  INFO 9220 --- [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+    2026-06-07T13:47:27.931+05:30  INFO 9220 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+    2026-06-07T13:47:27.933+05:30  INFO 9220 --- [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+    2026-06-07T13:47:27.965+05:30  INFO 9220 --- [    Test worker] c.l.api.AgentControllerTest              : Started AgentControllerTest in 1.662 seconds (process running for 2.967)
+
+AgentControllerTest > testAnalyzeEndpointMultipleFiles() STANDARD_ERROR
+    WARNING: A Java agent has been loaded dynamically (/Users/engineered/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.14.11/f9cb566608fbac6bc7bf54901a7aa11543a989ee/byte-buddy-agent-1.14.11.jar)
+    WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+    WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+    WARNING: Dynamic loading of agents will be disallowed by default in a future release
+
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+Gradle Test Executor 7 finished executing tests.
+
+> Task :test FAILED
+
+AgentControllerTest > testAnalyzeEndpointMultipleFiles() STANDARD_OUT
+    2026-06-07T13:47:29.945+05:30  INFO 9220 --- [    Test worker] org.reflections.Reflections              : Reflections took 49 ms to scan 2 urls, producing 3 keys and 24 values
+    Agent thinking...
+
+AgentControllerTest > testAnalyzeEndpointMultipleFiles() FAILED
+    jakarta.servlet.ServletException: Request processing failed: java.lang.RuntimeException: Session token limit exceeded: 10054 tokens used.
+        at app//org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+        at app//org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+        at app//jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+        at app//org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+        at app//org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+        at app//jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+        at app//org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+        at app//com.learningAssistant.api.AgentControllerTest.testAnalyzeEndpointMultipleFiles(AgentControllerTest.java:90)
+
+        Caused by:
+        java.lang.RuntimeException: Session token limit exceeded: 10054 tokens used.
+            at com.learningAssistant.core.FileTokenManager.addTokens(FileTokenManager.java:28)
+            at com.learningAssistant.core.LLM.generateResponse(LLM.java:122)
+            at com.learningAssistant.core.Agents.lambda$createAgent$2(Agents.java:165)
+            at com.learningAssistant.core.Agent.promptLLMForAction(Agent.java:72)
+            at com.learningAssistant.core.Agent.run(Agent.java:85)
+            at com.learningAssistant.core.service.LocalJavaAgenticService.analyze(LocalJavaAgenticService.java:50)
+            at com.learningAssistant.api.AgentController.analyze(AgentController.java:47)
+            at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+            at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+            at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:261)
+            at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:189)
+            at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+            at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917)
+            at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829)
+            at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+            at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+            at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+            at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+            ... 21 more
+
+AgentControllerTest > testAnalyzeEndpointMixed() STANDARD_OUT
+    2026-06-07T13:47:30.039+05:30  INFO 9220 --- [    Test worker] org.reflections.Reflections              : Reflections took 15 ms to scan 2 urls, producing 3 keys and 24 values
+    Agent thinking...
+
+AgentControllerTest > testAnalyzeEndpointMixed() FAILED
+    jakarta.servlet.ServletException: Request processing failed: java.lang.RuntimeException: Session token limit exceeded: 10054 tokens used.
+        at app//org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+        at app//org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+        at app//jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+        at app//org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+        at app//org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+        at app//jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+        at app//org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+        at app//com.learningAssistant.api.AgentControllerTest.testAnalyzeEndpointMixed(AgentControllerTest.java:109)
+
+        Caused by:
+        java.lang.RuntimeException: Session token limit exceeded: 10054 tokens used.
+            at com.learningAssistant.core.FileTokenManager.addTokens(FileTokenManager.java:28)
+            at com.learningAssistant.core.LLM.generateResponse(LLM.java:122)
+            at com.learningAssistant.core.Agents.lambda$createAgent$2(Agents.java:165)
+            at com.learningAssistant.core.Agent.promptLLMForAction(Agent.java:72)
+            at com.learningAssistant.core.Agent.run(Agent.java:85)
+            at com.learningAssistant.core.service.LocalJavaAgenticService.analyze(LocalJavaAgenticService.java:50)
+            at com.learningAssistant.api.AgentController.analyze(AgentController.java:47)
+            at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+            at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+            at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:261)
+            at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:189)
+            at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+            at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917)
+            at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829)
+            at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+            at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+            at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+            at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+            ... 21 more
+
+AgentControllerTest > testAnalyzeEndpointWithWord() STANDARD_OUT
+    2026-06-07T13:47:30.112+05:30  INFO 9220 --- [    Test worker] org.reflections.Reflections              : Reflections took 12 ms to scan 2 urls, producing 3 keys and 24 values
+    Agent thinking...
+
+AgentControllerTest > testAnalyzeEndpointWithWord() FAILED
+    jakarta.servlet.ServletException: Request processing failed: java.lang.RuntimeException: Session token limit exceeded: 10054 tokens used.
+        at app//org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1022)
+        at app//org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)
+        at app//jakarta.servlet.http.HttpServlet.service(HttpServlet.java:590)
+        at app//org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
+        at app//org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:72)
+        at app//jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+        at app//org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:165)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+        at app//org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
+        at app//org.springframework.test.web.servlet.setup.MockMvcFilterDecorator.doFilter(MockMvcFilterDecorator.java:151)
+        at app//org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:132)
+        at app//org.springframework.test.web.servlet.MockMvc.perform(MockMvc.java:201)
+        at app//com.learningAssistant.api.AgentControllerTest.testAnalyzeEndpointWithWord(AgentControllerTest.java:69)
+
+        Caused by:
+        java.lang.RuntimeException: Session token limit exceeded: 10054 tokens used.
+            at com.learningAssistant.core.FileTokenManager.addTokens(FileTokenManager.java:28)
+            at com.learningAssistant.core.LLM.generateResponse(LLM.java:122)
+            at com.learningAssistant.core.Agents.lambda$createAgent$2(Agents.java:165)
+            at com.learningAssistant.core.Agent.promptLLMForAction(Agent.java:72)
+            at com.learningAssistant.core.Agent.run(Agent.java:85)
+            at com.learningAssistant.core.service.LocalJavaAgenticService.analyze(LocalJavaAgenticService.java:50)
+            at com.learningAssistant.api.AgentController.analyze(AgentController.java:47)
+            at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+            at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+            at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:261)
+            at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:189)
+            at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
+            at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917)
+            at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829)
+            at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+            at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
+            at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
+            at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+            ... 21 more
+
+3 tests completed, 3 failed
+Finished generating test XML results (0.003 secs) into: /Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend/build/test-results/test
+Generating HTML test report...
+Finished generating test html results (0.005 secs) into: /Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend/build/reports/tests/test
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> There were failing tests. See the report at: file:///Users/engineered/Github/LearningAIAgents/CourseraProject/ai-agents-java/backend/build/reports/tests/test/index.html
+
+* Try:
+> Run with --scan to get full insights.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.10/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 9s
+3 actionable tasks: 1 executed, 2 up-to-date

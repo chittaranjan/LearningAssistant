@@ -10,22 +10,42 @@ import java.io.IOException;
 
 public class AnalysisTools {
 
-    @RegisterTool(name = "readPdfContent", description = "Reads the text content from a PDF file given its file path.")
-    public static String readPdfContent(String filePath) {
+    @RegisterTool(name = "readFileContent", description = "Reads text content from a PDF, Word (.docx), or Image file given its path.")
+    public static String readFileContent(String filePath) {
         File file = new File(filePath);
         if (!file.exists()) {
-            return "Error: PDF file not found at " + filePath + ". (Note: For this demonstration, you might need to create a dummy PDF or assume it was read correctly if using a mock provider)";
+            return "Error: File not found at " + filePath;
         }
-        try (PDDocument document = Loader.loadPDF(file)) {
-            PDFTextStripper stripper = new PDFTextStripper();
-            return stripper.getText(document);
-        } catch (IOException e) {
-            return "Error reading PDF file: " + e.getMessage();
+
+        String filename = file.getName().toLowerCase();
+        try {
+            if (filename.endsWith(".pdf")) {
+                try (PDDocument document = Loader.loadPDF(file)) {
+                    PDFTextStripper stripper = new PDFTextStripper();
+                    return stripper.getText(document);
+                }
+            } else if (filename.endsWith(".docx")) {
+                try (java.io.FileInputStream fis = new java.io.FileInputStream(file);
+                     org.apache.poi.xwpf.usermodel.XWPFDocument doc = new org.apache.poi.xwpf.usermodel.XWPFDocument(fis);
+                     org.apache.poi.xwpf.extractor.XWPFWordExtractor extractor = new org.apache.poi.xwpf.extractor.XWPFWordExtractor(doc)) {
+                    return extractor.getText();
+                }
+            } else if (filename.endsWith(".png") || filename.endsWith(".jpg") || filename.endsWith(".jpeg")) {
+                net.sourceforge.tess4j.Tesseract tesseract = new net.sourceforge.tess4j.Tesseract();
+                return tesseract.doOCR(file);
+            } else {
+                return java.nio.file.Files.readString(file.toPath());
+            }
+        } catch (Exception e) {
+            return "Error reading file: " + e.getMessage();
         }
     }
 
     @RegisterTool(name = "evaluateCurriculum", description = "Analyzes a course curriculum and returns key learning outcomes and prerequisites.")
     public static String evaluateCurriculum(String curriculumText) {
+        if (curriculumText == null || curriculumText.trim().isEmpty()) {
+            throw new RuntimeException("Curriculum text is empty. Did you forget to read the curriculum files?");
+        }
         // In a real system, this might call another specialized LLM prompt or a service.
         // For this demonstration, we'll return a simulated analysis.
         return "Curriculum Analysis Result:\n" +
@@ -36,6 +56,9 @@ public class AnalysisTools {
 
     @RegisterTool(name = "evaluateResume", description = "Analyzes a resume and returns candidate skills and experience.")
     public static String evaluateResume(String resumeText) {
+        if (resumeText == null || resumeText.trim().isEmpty()) {
+            throw new RuntimeException("Resume text is empty. Did you forget to read the resume files?");
+        }
         return "Resume Analysis Result:\n" +
                "- Core Skills: Java, Spring Boot, Basic Calculus.\n" +
                "- Experience: 2 years Software Development.\n" +
