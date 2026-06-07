@@ -77,10 +77,40 @@ public class AgentController {
                     @Override
                     public void onComplete(Memory finalMemory) {
                         Map<String, Object> response = new HashMap<>();
-                        List<String> results = finalMemory.getMemories().stream()
-                                .filter(m -> "assistant".equals(m.get("type")))
-                                .map(m -> (String) m.get("content"))
-                                .collect(Collectors.toList());
+                        List<String> results = new ArrayList<>();
+                        
+                        // We want to collect the actual results of the analysis and generation tools
+                        // The memory contains 'assistant' (JSON tool calls), 'user' (task input or tool results) entries
+                        for (Map<String, Object> m : finalMemory.getMemories()) {
+                            if ("user".equals(m.get("type"))) {
+                                String content = (String) m.get("content");
+                                if (content == null) continue;
+
+                                // Filter out the initial user task message
+                                if (content.startsWith("Analyze this curriculum text:")) continue;
+
+                                if (!content.startsWith("{")) {
+                                    // This is raw text, likely a result from a tool like generateSOP
+                                    results.add(content);
+                                } else {
+                                    // Try to extract the result from JSON
+                                    try {
+                                        Map<String, Object> map = objectMapper.readValue(content, Map.class);
+                                        if (map.containsKey("result") && map.get("result") != null) {
+                                            String res = map.get("result").toString();
+                                            // Skip errors and nulls
+                                            if (!res.equals("null") && !res.startsWith("Error invoking")) {
+                                                results.add(res);
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        // Not JSON or parse error, keep it if it's not a task description
+                                        results.add(content);
+                                    }
+                                }
+                            }
+                        }
+                        
                         response.put("results", results);
                         sendEvent(emitter, "complete", response);
                         emitter.complete();
@@ -103,10 +133,12 @@ public class AgentController {
 
     private void sendEvent(SseEmitter emitter, String name, Object data) {
         try {
+            String dataStr = data instanceof String ? (String) data : objectMapper.writeValueAsString(data);
             emitter.send(SseEmitter.event()
                     .name(name)
-                    .data(data instanceof String ? data : objectMapper.writeValueAsString(data)));
-        } catch (IOException e) {
+                    .data(dataStr)
+                    .reconnectTime(1000L));
+        } catch (Exception e) {
             // Client likely disconnected
         }
     }

@@ -54,17 +54,27 @@ function App() {
         if (done) break;
 
         buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop(); // Keep the last incomplete line in the buffer
+        
+        // SSE events are separated by double newlines
+        const parts = buffer.split('\n\n');
+        buffer = parts.pop(); // Keep the last potentially incomplete event in the buffer
 
-        for (const line of lines) {
-          if (line.startsWith('event:')) {
-            const eventType = line.substring(6).trim();
-            const dataLine = lines[lines.indexOf(line) + 1];
-            if (dataLine && dataLine.startsWith('data:')) {
-              const data = dataLine.substring(5).trim();
-              processEvent(eventType, data);
+        for (const part of parts) {
+          const lines = part.split('\n');
+          let eventType = '';
+          let dataLines = [];
+
+          for (const line of lines) {
+            if (line.startsWith('event:')) {
+              eventType = line.substring(6).trim();
+            } else if (line.startsWith('data:')) {
+              dataLines.push(line.substring(5).trim());
             }
+          }
+
+          if (eventType && dataLines.length > 0) {
+            const combinedData = dataLines.join('\n');
+            processEvent(eventType, combinedData);
           }
         }
       }
@@ -169,39 +179,53 @@ function App() {
           {error && <div style={styles.errorBox}>{error}</div>}
         </div>
 
-        {/* Right Section: Markdown Results */}
+        {/* Right Section: Markdown Results and Progress */}
         <div style={styles.rightPanel}>
-          <h2 style={styles.resultsTitle}>Analysis Output</h2>
-          <div style={styles.markdownContainer}>
-            {thoughts.length > 0 && !results && (
-              <div style={styles.thoughtsContainer}>
+          <div style={styles.resultsHeader}>
+            <h2 style={styles.resultsTitle}>Analysis Output</h2>
+            {loading && <div style={styles.loadingBadge}>Agent is Active</div>}
+          </div>
+          
+          <div style={styles.resultsContent}>
+            <div style={styles.markdownContainer}>
+              {results ? (
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {results}
+                </ReactMarkdown>
+              ) : (
+                <div style={styles.emptyState}>
+                  {loading 
+                    ? 'The agent is analyzing your files and generating results. Monitor progress below.' 
+                    : 'Results will appear here once the analysis is complete.'}
+                </div>
+              )}
+            </div>
+
+            {/* Bottom Progress Section */}
+            <div style={styles.progressPanel}>
+              <h4 style={styles.progressTitle}>🤖 Live Agent Progress</h4>
+              <div style={styles.thoughtsScroll}>
+                {thoughts.length === 0 && !loading && (
+                  <div style={styles.noProgress}>No active processes</div>
+                )}
                 {thoughts.map((thought, i) => (
                   <div key={i} style={styles.thoughtItem}>
                     <span style={styles.thoughtType}>
-                      {thought.type === 'decision' ? '🤖 Agent Decision:' : '⚙️ Action Result:'}
+                      {thought.type === 'decision' ? '👉 Plan:' : '✅ Result:'}
                     </span>
-                    <pre style={styles.thoughtContent}>
+                    <span style={styles.thoughtContent}>
                       {thought.type === 'decision' 
                         ? thought.content 
-                        : JSON.stringify(thought.content, null, 2)}
-                    </pre>
+                        : typeof thought.content === 'object' 
+                          ? `Completed ${thought.content.tool || 'action'}`
+                          : thought.content}
+                    </span>
                   </div>
                 ))}
-                {loading && <div style={styles.spinner}>Processing...</div>}
+                {loading && <div style={styles.spinner}>The agent is thinking...</div>}
+                <div ref={(el) => { if (el) el.scrollIntoView({ behavior: 'smooth' }); }} />
               </div>
-            )}
-
-            {results ? (
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {results}
-              </ReactMarkdown>
-            ) : (
-              !thoughts.length && (
-                <div style={styles.emptyState}>
-                  {loading ? 'The agent is analyzing your files and generating results...' : 'Results will appear here once the analysis is complete.'}
-                </div>
-              )
-            )}
+            </div>
           </div>
         </div>
       </div>
@@ -232,9 +256,9 @@ const styles = {
     gap: '20px',
   },
   leftPanel: {
-    flex: '0 0 400px',
+    flex: '0 0 350px',
     backgroundColor: '#fff',
-    padding: '25px',
+    padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
     display: 'flex',
@@ -244,43 +268,66 @@ const styles = {
   rightPanel: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: '25px',
+    padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden',
   },
+  resultsHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px',
+    paddingBottom: '10px',
+    borderBottom: '2px solid #f0f0f0',
+  },
+  loadingBadge: {
+    backgroundColor: '#e7f3ff',
+    color: '#007bff',
+    padding: '4px 12px',
+    borderRadius: '20px',
+    fontSize: '0.8rem',
+    fontWeight: 'bold',
+    animation: 'pulse 2s infinite',
+  },
+  resultsContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    overflow: 'hidden',
+  },
   section: {
-    marginBottom: '25px',
+    marginBottom: '20px',
   },
   sectionTitle: {
     margin: '0 0 5px 0',
-    fontSize: '1.1rem',
+    fontSize: '1rem',
     color: '#0056b3',
   },
   sectionDesc: {
     margin: '0 0 10px 0',
-    fontSize: '0.85rem',
+    fontSize: '0.8rem',
     color: '#666',
   },
   fileInput: {
     width: '100%',
-    padding: '10px 0',
+    padding: '8px 0',
   },
   fileList: {
-    fontSize: '0.85rem',
+    fontSize: '0.8rem',
     color: '#555',
-    marginTop: '10px',
-    paddingLeft: '20px',
+    marginTop: '8px',
+    paddingLeft: '15px',
   },
   textArea: {
     width: '100%',
-    height: '100px',
-    padding: '12px',
+    height: '80px',
+    padding: '10px',
     borderRadius: '5px',
     border: '1px solid #ddd',
-    fontSize: '0.9rem',
+    fontSize: '0.85rem',
     resize: 'none',
     boxSizing: 'border-box',
   },
@@ -293,7 +340,7 @@ const styles = {
     cursor: 'pointer',
     transition: 'background-color 0.2s',
     fontWeight: 'bold',
-    marginTop: 'auto',
+    marginTop: '10px',
   },
   errorBox: {
     marginTop: '15px',
@@ -301,13 +348,11 @@ const styles = {
     backgroundColor: '#f8d7da',
     color: '#721c24',
     borderRadius: '4px',
-    fontSize: '0.85rem',
+    fontSize: '0.8rem',
   },
   resultsTitle: {
-    marginTop: 0,
-    paddingBottom: '10px',
-    borderBottom: '2px solid #f0f0f0',
-    fontSize: '1.5rem',
+    margin: 0,
+    fontSize: '1.4rem',
     color: '#333',
   },
   markdownContainer: {
@@ -316,6 +361,55 @@ const styles = {
     padding: '10px',
     lineHeight: '1.6',
     fontSize: '1rem',
+    backgroundColor: '#fff',
+  },
+  progressPanel: {
+    height: '200px',
+    borderTop: '1px solid #eee',
+    backgroundColor: '#fcfcfc',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '10px',
+  },
+  progressTitle: {
+    margin: '0 0 8px 0',
+    fontSize: '0.9rem',
+    color: '#555',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  thoughtsScroll: {
+    flex: 1,
+    overflowY: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    padding: '5px',
+  },
+  thoughtItem: {
+    padding: '8px 12px',
+    backgroundColor: '#fff',
+    borderRadius: '4px',
+    borderLeft: '3px solid #007bff',
+    boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+    fontSize: '0.85rem',
+    display: 'flex',
+    gap: '8px',
+  },
+  thoughtType: {
+    fontWeight: 'bold',
+    color: '#007bff',
+    whiteSpace: 'nowrap',
+  },
+  thoughtContent: {
+    color: '#444',
+  },
+  noProgress: {
+    textAlign: 'center',
+    color: '#999',
+    fontSize: '0.85rem',
+    marginTop: '20px',
+    fontStyle: 'italic',
   },
   emptyState: {
     display: 'flex',
@@ -327,38 +421,11 @@ const styles = {
     textAlign: 'center',
     padding: '0 40px',
   },
-  thoughtsContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
-  },
-  thoughtItem: {
-    padding: '10px',
-    backgroundColor: '#f1f3f5',
-    borderRadius: '6px',
-    borderLeft: '4px solid #007bff',
-  },
-  thoughtType: {
-    fontWeight: 'bold',
-    fontSize: '0.85rem',
-    color: '#495057',
-    display: 'block',
-    marginBottom: '5px',
-  },
-  thoughtContent: {
-    margin: 0,
-    fontSize: '0.85rem',
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-all',
-    color: '#333',
-    fontFamily: 'monospace',
-  },
   spinner: {
-    textAlign: 'center',
     padding: '10px',
     color: '#007bff',
     fontStyle: 'italic',
-    fontSize: '0.9rem',
+    fontSize: '0.85rem',
   }
 };
 

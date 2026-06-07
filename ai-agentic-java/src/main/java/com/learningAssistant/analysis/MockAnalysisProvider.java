@@ -41,8 +41,8 @@ public class MockAnalysisProvider implements LLMProvider {
                     break;
                 case 2:
                     response.put("tool", "generateSOP");
-                    args.put("curriculumAnalysis", "Advanced ML, Neural Networks");
-                    args.put("resumeAnalysis", "Java, Spring Boot");
+                    args.put("curriculumAnalysis", "### Curriculum Analysis\n- **Focus**: Advanced ML, Neural Networks\n- **Intensity**: High");
+                    args.put("resumeAnalysis", "### Resume Analysis\n- **Skills**: Java, Spring Boot\n- **Experience**: Senior SDE");
                     response.put("args", args);
                     step++;
                     break;
@@ -61,7 +61,7 @@ public class MockAnalysisProvider implements LLMProvider {
             }
             
             String json = mapper.writeValueAsString(response);
-            String formattedResponse = "Thinking...\n\n```action\n" + json + "\n```";
+            String formattedResponse = "```action\n" + json + "\n```";
             
             return new Result(formattedResponse, 100);
         } catch (Exception e) {
