@@ -67,7 +67,7 @@ public class ActionRegistry {
                         // Invoke the method
                         return tool.originMethod.invoke(null, methodArgs);
                     } catch (Exception e) {
-                        return "Error invoking " + toolName + ": " + e.getMessage();
+                        return "Error invoking " + toolName + ": " + (e.getCause() != null ? e.getCause().getMessage() : e.getMessage());
                     }
                 };
 
