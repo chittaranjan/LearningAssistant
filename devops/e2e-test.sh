@@ -13,11 +13,9 @@ NC='\033[0m'
 
 echo -e "${GREEN}Starting End-to-End Build and Test...${NC}"
 
-# 1. Backend Build and Test
-echo -e "\n${GREEN}Step 1: Building and Testing Backend...${NC}"
-cd backend
+# 1. AI Agent and Backend Build and Test
+echo -e "\n${GREEN}Step 1: Building and Testing AI Agent and Backend...${NC}"
 ./gradlew clean build
-cd ..
 
 # 2. Frontend Build
 echo -e "\n${GREEN}Step 2: Building Frontend...${NC}"

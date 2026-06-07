@@ -12,32 +12,28 @@ This project is an industry-standard monorepo containing a multi-agent system de
 
 ### Local Build, Test, and Launch (DevOps)
 
-You can run the end-to-end build and test script from the root:
+The project uses a Gradle-based monorepo structure. You can run the end-to-end build and test script from the root:
 
 ```bash
 ./devops/e2e-test.sh
 ```
 
-To build and launch the entire application (Backend + Frontend) and open it in your browser:
+To build and launch the entire application (AI Agent + Backend + Frontend) and open it in your browser:
 
 ```bash
 ./devops/launch.sh
 ```
 
-### Backend
+### Components
 
-1. **Navigate to backend**: `cd backend`
-2. **Build**: `./gradlew build`
-3. **Run**: `./gradlew bootRun`
+- **ai-agent**: Core agentic framework and analysis tools.
+- **backend**: Spring Boot middleware handling file processing and API requests.
+- **frontend**: React-based user interface.
 
-### Frontend
+### Running Manually
 
-1. **Navigate to frontend**: `cd frontend`
-2. **Install & Run**:
-   ```bash
-   npm install
-   npm start
-   ```
+1. **AI Agent & Backend**: From the root, run `./gradlew :backend:bootRun`
+2. **Frontend**: Navigate to `frontend`, run `npm install` and `npm start`
 
 ## Features
 

@@ -13,11 +13,9 @@ NC='\033[0m'
 
 echo -e "${GREEN}Starting Learning Assistant Application...${NC}"
 
-# 1. Build Backend
-echo -e "\n${BLUE}Step 1: Building Backend...${NC}"
-cd backend
+# 1. Build AI Agent and Backend
+echo -e "\n${BLUE}Step 1: Building AI Agent and Backend...${NC}"
 ./gradlew build -x test
-cd ..
 
 # 2. Build Frontend
 echo -e "\n${BLUE}Step 2: Installing Frontend Dependencies...${NC}"
@@ -29,10 +27,8 @@ cd ..
 
 # 3. Start Backend in background
 echo -e "\n${BLUE}Step 3: Starting Backend Service...${NC}"
-cd backend
-./gradlew bootRun > ../backend.log 2>&1 &
+./gradlew :backend:bootRun > backend.log 2>&1 &
 BACKEND_PID=$!
-cd ..
 
 echo "Backend starting with PID: $BACKEND_PID. Logs at backend.log"
 
