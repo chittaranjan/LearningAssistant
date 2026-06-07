@@ -66,12 +66,14 @@ public class AgentController {
                 agenticService.analyze(context, new ProgressCallback() {
                     @Override
                     public void onDecision(String decision) {
-                        sendEvent(emitter, "decision", decision);
+                        String formattedDecision = formatDecision(decision);
+                        sendEvent(emitter, "decision", formattedDecision);
                     }
 
                     @Override
                     public void onActionResult(Map<String, Object> result) {
-                        sendEvent(emitter, "actionResult", result);
+                        String formattedResult = formatActionResult(result);
+                        sendEvent(emitter, "actionResult", formattedResult);
                     }
 
                     @Override
@@ -131,6 +133,64 @@ public class AgentController {
         return emitter;
     }
 
+    private String formatDecision(String decision) {
+        if (decision == null) return "Thinking...";
+        
+        // Check for JSON action block
+        int start = decision.indexOf("```action");
+        if (start != -1) {
+            int jsonStart = decision.indexOf("{", start);
+            int jsonEnd = decision.lastIndexOf("}");
+            if (jsonStart != -1 && jsonEnd != -1 && jsonEnd > jsonStart) {
+                String json = decision.substring(jsonStart, jsonEnd + 1);
+                try {
+                    Map<String, Object> action = objectMapper.readValue(json, Map.class);
+                    String tool = (String) action.get("tool");
+                    Map<String, Object> args = (Map<String, Object>) action.get("args");
+                    
+                    if (tool != null) {
+                        StringBuilder sb = new StringBuilder("Planning to use: **" + tool + "**");
+                        if (args != null && !args.isEmpty()) {
+                            sb.append(" (");
+                            String argSummary = args.entrySet().stream()
+                                    .map(e -> e.getKey() + ": " + (e.getValue().toString().length() > 50 ? e.getValue().toString().substring(0, 47) + "..." : e.getValue()))
+                                    .collect(Collectors.joining(", "));
+                            sb.append(argSummary).append(")");
+                        }
+                        return sb.toString();
+                    }
+                } catch (Exception e) {
+                    // Fallback to extraction of reasoning if parsing fails
+                }
+            }
+        }
+        
+        // If not a JSON action, or parsing failed, try to get the reasoning part before the action
+        if (start != -1) {
+            String reasoning = decision.substring(0, start).trim();
+            if (!reasoning.isEmpty()) return reasoning;
+        }
+        
+        return decision.length() > 150 ? decision.substring(0, 147) + "..." : decision;
+    }
+
+    private String formatActionResult(Map<String, Object> result) {
+        if (result == null) return "Action completed.";
+        
+        String tool = (String) result.get("tool");
+        Object resObj = result.get("result");
+        
+        if (tool != null) {
+            String resStr = resObj != null ? resObj.toString() : "Success";
+            if (resStr.length() > 100) {
+                resStr = resStr.substring(0, 97) + "...";
+            }
+            return "Completed **" + tool + "**: " + resStr;
+        }
+        
+        return "Action finished.";
+    }
+
     private void sendEvent(SseEmitter emitter, String name, Object data) {
         try {
             String dataStr = data instanceof String ? (String) data : objectMapper.writeValueAsString(data);
@@ -183,9 +243,10 @@ public class AgentController {
             // tesseract.setDatapath("/usr/local/share/tessdata");
             
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
+            if (bufferedImage == null) return "Error: Could not read image file.";
             return tesseract.doOCR(bufferedImage);
         } catch (NoClassDefFoundError | UnsatisfiedLinkError e) {
-            return "OCR Error: Tesseract library not found or not configured in this environment. Please install Tesseract or use PDF/DOCX files.";
+            return "[OCR Skipping]: Tesseract library not found or not configured in this environment. Using other available content.";
         } catch (Exception e) {
             return "Error extracting text from image: " + e.getMessage();
         }

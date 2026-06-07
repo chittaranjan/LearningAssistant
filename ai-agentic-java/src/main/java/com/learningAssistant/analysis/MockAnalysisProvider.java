@@ -1,6 +1,7 @@
 package com.learningAssistant.analysis;
 
 import com.learningAssistant.core.LLMProvider;
+import com.learningAssistant.core.Message;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +23,29 @@ public class MockAnalysisProvider implements LLMProvider {
 
     @Override
     public Result generateCompletion(Context context) {
+        // If there are no tools provided in the context, this is likely a direct call from AnalysisTools
+        // for content generation, rather than the agent planning loop.
+        if (context.getTools() == null || context.getTools().isEmpty()) {
+            String userMessage = "";
+            for (Message m : context.getMessages()) {
+                if ("user".equals(m.getRole())) {
+                    userMessage = m.getContent();
+                    break;
+                }
+            }
+
+            if (userMessage.contains("evaluateCurriculum")) {
+                return new Result("### Mock Curriculum Analysis\n- Key Outcomes: Java, Spring Boot, AI\n- Prerequisites: Computer Science basics", 50);
+            } else if (userMessage.contains("evaluateResume")) {
+                return new Result("### Mock Resume Analysis\n- Experience: Senior SDE\n- Skills: Java, Kubernetes", 50);
+            } else if (userMessage.contains("generateSOP")) {
+                return new Result("### Mock Statement of Purpose\nI am applying for this course to further my skills in AI and Spring Boot.", 100);
+            } else if (userMessage.contains("generateStudyPlan")) {
+                return new Result("### Mock Study Plan\n1. Review AI basics.\n2. Complete Spring Boot project.", 100);
+            }
+            return new Result("Detailed mock analysis content based on the provided input.", 100);
+        }
+
         try {
             Map<String, Object> response = new HashMap<>();
             Map<String, Object> args = new HashMap<>();

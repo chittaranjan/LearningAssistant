@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MockAnalysisProviderTest {
 
@@ -14,7 +15,7 @@ public class MockAnalysisProviderTest {
     public void testGenerateCompletionSequence() {
         MockAnalysisProvider provider = new MockAnalysisProvider();
         List<Message> messages = new ArrayList<>();
-        LLMProvider.Context context = new LLMProvider.Context(messages);
+        LLMProvider.Context context = new LLMProvider.Context(messages, List.of(Map.of("name", "dummy")), Map.of());
         
         // Step 0: evaluateCurriculum
         LLMProvider.Result result0 = provider.generateCompletion(context);

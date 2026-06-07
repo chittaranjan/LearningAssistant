@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import FileUploadSection from './components/FileUploadSection';
+import AnalysisOutput from './components/AnalysisOutput';
+import AgentProgress from './components/AgentProgress';
 
 function App() {
   const [curriculumFiles, setCurriculumFiles] = useState([]);
@@ -121,39 +121,21 @@ function App() {
       <div style={styles.main}>
         {/* Left Section: Uploads and Chat */}
         <div style={styles.leftPanel}>
-          <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>1. Curriculum Documents</h3>
-            <p style={styles.sectionDesc}>Upload one or more files (PDF, Word, Image)</p>
-            <input 
-              type="file" 
-              accept="application/pdf,image/*,.doc,.docx" 
-              multiple 
-              onChange={(e) => setCurriculumFiles(Array.from(e.target.files))}
-              style={styles.fileInput}
-            />
-            {curriculumFiles.length > 0 && (
-              <ul style={styles.fileList}>
-                {curriculumFiles.map((file, i) => <li key={i}>{file.name}</li>)}
-              </ul>
-            )}
-          </div>
+          <FileUploadSection 
+            title="1. Curriculum Documents"
+            description="Upload one or more files (PDF, Word, Image)"
+            accept="application/pdf,image/*,.doc,.docx"
+            files={curriculumFiles}
+            onFileChange={setCurriculumFiles}
+          />
 
-          <div style={styles.section}>
-            <h3 style={styles.sectionTitle}>2. Resume Documents</h3>
-            <p style={styles.sectionDesc}>Upload your resume(s)</p>
-            <input 
-              type="file" 
-              accept="application/pdf,image/*,.doc,.docx" 
-              multiple 
-              onChange={(e) => setResumeFiles(Array.from(e.target.files))}
-              style={styles.fileInput}
-            />
-            {resumeFiles.length > 0 && (
-              <ul style={styles.fileList}>
-                {resumeFiles.map((file, i) => <li key={i}>{file.name}</li>)}
-              </ul>
-            )}
-          </div>
+          <FileUploadSection 
+            title="2. Resume Documents"
+            description="Upload your resume(s)"
+            accept="application/pdf,image/*,.doc,.docx"
+            files={resumeFiles}
+            onFileChange={setResumeFiles}
+          />
 
           <div style={styles.section}>
             <h3 style={styles.sectionTitle}>3. Custom Instructions</h3>
@@ -181,51 +163,9 @@ function App() {
 
         {/* Right Section: Markdown Results and Progress */}
         <div style={styles.rightPanel}>
-          <div style={styles.resultsHeader}>
-            <h2 style={styles.resultsTitle}>Analysis Output</h2>
-            {loading && <div style={styles.loadingBadge}>Agent is Active</div>}
-          </div>
-          
           <div style={styles.resultsContent}>
-            <div style={styles.markdownContainer}>
-              {results ? (
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {results}
-                </ReactMarkdown>
-              ) : (
-                <div style={styles.emptyState}>
-                  {loading 
-                    ? 'The agent is analyzing your files and generating results. Monitor progress below.' 
-                    : 'Results will appear here once the analysis is complete.'}
-                </div>
-              )}
-            </div>
-
-            {/* Bottom Progress Section */}
-            <div style={styles.progressPanel}>
-              <h4 style={styles.progressTitle}>🤖 Live Agent Progress</h4>
-              <div style={styles.thoughtsScroll}>
-                {thoughts.length === 0 && !loading && (
-                  <div style={styles.noProgress}>No active processes</div>
-                )}
-                {thoughts.map((thought, i) => (
-                  <div key={i} style={styles.thoughtItem}>
-                    <span style={styles.thoughtType}>
-                      {thought.type === 'decision' ? '👉 Plan:' : '✅ Result:'}
-                    </span>
-                    <span style={styles.thoughtContent}>
-                      {thought.type === 'decision' 
-                        ? thought.content 
-                        : typeof thought.content === 'object' 
-                          ? `Completed ${thought.content.tool || 'action'}`
-                          : thought.content}
-                    </span>
-                  </div>
-                ))}
-                {loading && <div style={styles.spinner}>The agent is thinking...</div>}
-                <div ref={(el) => { if (el) el.scrollIntoView({ behavior: 'smooth' }); }} />
-              </div>
-            </div>
+            <AnalysisOutput results={results} loading={loading} />
+            <AgentProgress thoughts={thoughts} loading={loading} />
           </div>
         </div>
       </div>

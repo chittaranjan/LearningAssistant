@@ -51,11 +51,15 @@ public class LocalJavaAgenticService implements AgenticService {
             new Goal(5, "Complete Task", "Provide the final results and call finishTask.")
         );
 
-        Agent plannerAgent = Agents.createJsonAgent(AnalysisTools.class, plannerGoals, llm);
+        String customPrompt = (String) context.get("customPrompt");
+        Agent plannerAgent = Agents.createInstanceAgent(
+            new AnalysisTools(llm, customPrompt), 
+            plannerGoals, 
+            llm
+        );
 
         String userInput = "Analyze this curriculum text: [" + curriculumText + "] and this resume text: [" + resumeText + "]. ";
         
-        String customPrompt = (String) context.get("customPrompt");
         if (customPrompt != null && !customPrompt.isEmpty()) {
             userInput += "Additional instructions: " + customPrompt + " ";
         }
