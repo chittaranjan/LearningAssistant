@@ -10,12 +10,18 @@ This project is an industry-standard monorepo containing a multi-agent system de
 
 ## Getting Started
 
-### Local Build and Test (DevOps)
+### Local Build, Test, and Launch (DevOps)
 
 You can run the end-to-end build and test script from the root:
 
 ```bash
 ./devops/e2e-test.sh
+```
+
+To build and launch the entire application (Backend + Frontend) and open it in your browser:
+
+```bash
+./devops/launch.sh
 ```
 
 ### Backend
