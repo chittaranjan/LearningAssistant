@@ -20,7 +20,7 @@ The primary agent implemented in `LocalJavaAgenticService.java`. It is responsib
 
 ## Framework Implementation
 
-The core logic is located in `ai-agent/src/main/java/com/learningAssistant/core/`:
+The core logic is located in `ai-agentic-java/src/main/java/com/learningAssistant/core/`:
 - `Agent.java`: The main execution loop.
 - `LLM.java`: Interface for language model interactions.
 - `ActionRegistry.java`: Manages available tools via annotations.
@@ -29,6 +29,6 @@ The core logic is located in `ai-agent/src/main/java/com/learningAssistant/core/
 ## Extending the System
 
 To add new capabilities:
-1.  Define a new tool in `AnalysisTools.java` (located in `ai-agent/src/main/java/com/learningAssistant/analysis/`) using the `@RegisterTool` annotation.
+1.  Define a new tool in `AnalysisTools.java` (located in `ai-agentic-java/src/main/java/com/learningAssistant/analysis/`) using the `@RegisterTool` annotation.
 2.  Add a new `Goal` to the agent's task list in `LocalJavaAgenticService.java` (located in `backend/src/main/java/com/learningAssistant/core/service/`).
-3.  (Optional) Update the `MockAnalysisProvider` in `ai-agent` to simulate the new tool's behavior for testing.
+3.  (Optional) Update the `MockAnalysisProvider` in `ai-agentic-java` to simulate the new tool's behavior for testing.

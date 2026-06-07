@@ -26,7 +26,7 @@ To build and launch the entire application (AI Agent + Backend + Frontend) and o
 
 ### Components
 
-- **ai-agent**: Core agentic framework and analysis tools.
+- **ai-agentic-java**: Core agentic framework and analysis tools.
 - **backend**: Spring Boot middleware handling file processing and API requests.
 - **frontend**: React-based user interface.
 

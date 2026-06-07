@@ -3,14 +3,14 @@
 This project is a monorepo containing an AI agentic layer, a Spring Boot backend, and a React frontend.
 
 ## Root Directory
-- `ai-agent/`: AI and Agentic layer hosting the GAME framework and analysis tools.
+- `ai-agentic-java/`: AI and Agentic layer hosting the GAME framework and analysis tools.
 - `backend/`: Spring Boot middleware application.
 - `frontend/`: React application for the user interface.
 - `devops/`: Scripts for building, testing, and launching the application.
 - `README.md`: General project information and setup instructions.
 - `gradlew`, `gradlew.bat`, `gradle/`: Root Gradle wrapper for managing all modules.
 
-## AI Agent Structure (`ai-agent/`)
+## AI Agent Structure (`ai-agentic-java/`)
 - `src/main/java/com/learningAssistant/`:
   - `core/`: The GAME (Goals, Actions, Memory, Environment) multi-agent framework.
     - `Agent.java`, `Goal.java`, `Action.java`, `Memory.java`, `Environment.java`.
@@ -25,9 +25,9 @@ This project is a monorepo containing an AI agentic layer, a Spring Boot backend
     - `AgentController.java`: Main endpoint for file uploads and analysis orchestration.
   - `core/service/`: High-level services for agentic tasks.
     - `AgenticService.java`: Interface for analysis services.
-    - `LocalJavaAgenticService.java`: Implementation using the local `ai-agent` module.
+    - `LocalJavaAgenticService.java`: Implementation using the local `ai-agentic-java` module.
 - `src/test/java/com/learningAssistant/`: Unit and integration tests for the API.
-- `build.gradle.kts`: Backend build configuration depending on `:ai-agent`.
+- `build.gradle.kts`: Backend build configuration depending on `:ai-agentic-java`.
 
 ## Frontend Structure (`frontend/`)
 - `src/`:
@@ -40,6 +40,6 @@ This project is a monorepo containing an AI agentic layer, a Spring Boot backend
    - User uploads curriculum and resume via `frontend/src/App.js`.
    - `AgentController.java` receives files, extracts text (PDF/Word/Image).
    - `AgentController` calls `LocalJavaAgenticService.java`.
-   - `LocalJavaAgenticService` initializes the `Agent` using components from the `ai-agent` module.
+   - `LocalJavaAgenticService` initializes the `Agent` using components from the `ai-agentic-java` module.
    - The `Agent` uses the `LLM` to reason through a sequence of goals: analyze curriculum -> analyze resume -> generate SOP -> generate Study Plan.
    - Results are returned to the frontend and displayed to the user.

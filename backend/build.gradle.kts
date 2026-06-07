@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":ai-agent"))
+    implementation(project(":ai-agentic-java"))
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.apache.pdfbox:pdfbox:3.0.2")
     implementation("org.apache.poi:poi-ooxml:5.2.5")

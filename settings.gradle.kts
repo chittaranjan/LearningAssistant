@@ -1,3 +1,3 @@
 rootProject.name = "learning-assistant"
 include("backend")
-include("ai-agent")
+include("ai-agentic-java")

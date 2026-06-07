@@ -36,7 +36,11 @@ echo "Backend starting with PID: $BACKEND_PID. Logs at backend.log"
 echo "Waiting for backend to start on port 8080..."
 MAX_RETRIES=30
 RETRY_COUNT=0
-while ! curl -s http://localhost:8080/actuator/health > /dev/null && [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+# We check /api/agent/analyze with a GET request, which should return 405 Method Not Allowed
+# This confirms the server is up and our controller is mapped.
+while ! curl -s http://localhost:8080/api/agent/analyze | grep "405" > /dev/null && \
+      ! curl -s -I http://localhost:8080/api/agent/analyze | grep "405" > /dev/null && \
+      [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
     sleep 2
     RETRY_COUNT=$((RETRY_COUNT+1))
     echo -n "."
